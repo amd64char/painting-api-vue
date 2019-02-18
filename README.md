@@ -9,8 +9,8 @@ Consumes the Node project [https://github.com/amd64char/painting-api](https://gi
 You will need the following things properly installed on your computer.
 
 * [NodeJS](https://nodejs.org/en/)
-* [VueJS](https://vuejs.org/v2/guide/)
 * [Yarn](https://yarnpkg.com/lang/en/docs/install/#mac-stable)
+* [VueJS](https://vuejs.org/v2/guide/)
 * [Parcel](https://parceljs.org/getting_started.html)
 * [MongoDB](https://docs.mongodb.com/manual/administration/install-community/) — Mac: `brew install mongodb`
 
@@ -48,6 +48,6 @@ See the section about [build and deployment](https://parceljs.org/cli.html#build
 
 ## Learn More
 
-[Using Parcel In A Vue.js App](https://scotch.io/tutorials/using-parcel-in-a-vuejs-app)
+[Using Parcel In A Vue.js App](https://scotch.io/tutorials/using-parcel-in-a-vuejs-app)<br>
 [Building Vue.js Apps with Parcel](https://alligator.io/vuejs/vue-parceljs/).
 
