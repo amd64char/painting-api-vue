@@ -14,16 +14,19 @@
               </button>
               <div id="collapseAdd" class="mb-3 p-3 border border-primary collapse" aria-labelledby="headingThree" data-parent="#addPainting">
                   <!--Add-->
-
+                  
                   <!--/Add-->
               </div>
           </div>
       </div>
       <div class="container-fluid">
           <div v-if="loading">Loading...</div>
-          <div v-else v-for="painting in paintings" v-bind:key="painting.id" class="card-deck">
+          <div v-else class="card-deck">
               <!--Card-->
-              {{ painting.name }}
+              <PaintingCard
+                  v-for="painting in paintings"
+                  v-bind:painting="painting"
+                  v-bind:key="painting.id" />
               <!--/Card-->
           </div>
           <hr/>
@@ -33,7 +36,9 @@
 
 <script>
     import axios from 'axios'
-    
+    import PaintingCard from './painting/Card'
+    //import PaintingAdd from './painting/Add'
+
     // Obtain the web api from our environment file
     const apiBaseUrl = process.env.WEB_API;
 
@@ -43,6 +48,10 @@
     // Start of our App module
     export default {
         name: 'App',
+        components: {
+            //PaintingAdd,
+            PaintingCard
+        },
         data() {
           return {
               message: 'Using Parcel and Bootstrap In A Vue.js App',

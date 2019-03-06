@@ -11,10 +11,12 @@
     "bootbox": "^4.4.0",
     "bootstrap": "^4.3.1",
     "jquery": "^3.3.1",
+    "moment": "^2.24.0",
     "parcel-bundler": "^1.11.0",
     "popper.js": "^1.14.7",
     "sass": "^1.17.0",
     "sass-loader": "^7.1.0",
+    "src": "^1.1.2",
     "vue": "^2.6.6",
     "vue-hot-reload-api": "^2.3.2"
   },
