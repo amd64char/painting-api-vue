@@ -49,5 +49,7 @@ See the section about [build and deployment](https://parceljs.org/cli.html#build
 ## Learn More
 
 [Using Parcel In A Vue.js App](https://scotch.io/tutorials/using-parcel-in-a-vuejs-app)<br>
-[Building Vue.js Apps with Parcel](https://alligator.io/vuejs/vue-parceljs/).
+[Building Vue.js Apps with Parcel](https://alligator.io/vuejs/vue-parceljs/).<br>
+[How to Emit Data in Vue: Beyond the Vue.js Documentation](https://www.telerik.com/blogs/how-to-emit-data-in-vue-beyond-the-vuejs-documentation)<br>
+[Chrome Vue.js devtools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd?hl=en)
 
