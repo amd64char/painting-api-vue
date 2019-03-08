@@ -1,52 +1,88 @@
-
+<!--
+.prevent, which will keep a submit event from reloading the page
+https://css-tricks.com/methods-computed-and-watchers-in-vue-js/
+-->
 <template>
-    <form onSubmit={this.handlePaintingAdd}>
+    <form v-on:submit.prevent="sendForm()">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label htmlFor="name">Painting Name:</label>
-                <input class="form-control" type="text" value={name} onChange={this.handleInputChange} name="name" placeholder="Name of painting" required />
+                <input class="form-control" type="text" v-model.trim="name" name="name" placeholder="Name of painting" required />
             </div>
             <div class="form-group col-md-6">
                 <label htmlFor="artist">Artist Name:</label>
-                <input class="form-control" type="text" value={artist} onChange={this.handleInputChange} name="artist" placeholder="Name of artist" required />
+                <input class="form-control" type="text" v-model.trim="artist" name="artist" placeholder="Name of artist" required />
             </div>
         </div>
         <div class="form-group">
             <label htmlFor="url">Image URL:</label>
-            <input class="form-control" type="text" value={url} onChange={this.handleInputChange} name="url" placeholder="Painting Image URL" required />
+            <input class="form-control" type="text" v-model.trim="url" name="url" placeholder="Painting Image URL" required />
         </div>
         <div class="form-group">
             <label htmlFor="inputAddress2">Painting Attributes:</label>
-            {
-                techniques && techniques.map((name, index) => (
-                    <div key={`attr${index + 1}`} class="input-group mb-2">
-                        <input
-                            type="text"
-                            placeholder={`Atrribute #${index + 1}`}
-                            aria-label={`Atrribute #${index + 1}`}
-                            value={name}
-                            onChange={(e) => this.handleTechniqueNameChange(index, e)}
-                        />
-                        <div class="input-group-append">
-                            <button
-                                type="button"
-                                onClick={(e) => this.handleTechniqueRemove(index)}
-                                class="btn btn-outline-secondary btn-sm"
-                            >
-                            <FontAwesomeIcon icon={faTimes} /> Remove
-                            </button>
-                        </div>
-                    </div>
-                ))
-            }
-            <button
-                type="button"
-                onClick={this.handleTechniqueAdd}
+            <div v-for="(technique, index) in techniques" v-bind:key="index" class="input-group mb-2">
+                <input 
+                    type="text" 
+                    v-bind:name="'technique' + index" 
+                    v-model="techniques[index]" 
+                    v-bind:placeholder="'Atrribute #' + parseInt(index + 1)" 
+                />
+                <div class="input-group-append">
+                    <button
+                        type="button"
+                        v-on:click="removeTechnique(index)"
+                        class="btn btn-outline-secondary btn-sm"
+                        >
+                        <font-awesome-icon icon="times">Remove</font-awesome-icon> 
+                    </button>
+                </div>
+            </div>
+            <button 
+                type="button" 
+                v-on:click="addTechnique()" 
                 class="btn btn-outline-primary btn-sm"
                 >
-                <FontAwesomeIcon icon={faPlus} /> Add
+                <font-awesome-icon icon="plus">Add</font-awesome-icon>
             </button>
         </div>
         <button type="submit" class="btn btn-primary">Create Painting</button>
     </form>
-</templat>
+</template>
+
+<script>
+    /*
+     * Binding v-model directly to v-for iteration
+     * https://stackoverflow.com/questions/42629509/you-are-binding-v-model-directly-to-a-v-for-iteration-alias/42630052
+    */
+    // Start of our Painting add module
+    export default {
+        name: 'Add',
+        data() {
+            return {
+                name: '',
+                artist: '',
+                url: '',
+                newTechnique: '',
+                techniques: []
+            };
+        },
+        methods: {
+            addTechnique(attribute) {
+                this.techniques = this.techniques.concat(['']);
+            },
+            removeTechnique(index) {
+                this.techniques = this.techniques.filter((technique, techniqueIndex) => index !== techniqueIndex);
+            },
+            sendForm() {
+                if (this.name.length > 0 && this.artist.length > 0) {
+                    this.$emit('create-painting', {
+                        name: this.name,
+                        artist: this.artist,
+                        url: this.url,
+                        techniques: this.techniques
+                    });
+                }
+            }
+        }
+    };
+</script>

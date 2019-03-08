@@ -2,7 +2,7 @@
 <template>
     <div class="card mb-3">
         <a href="#" v-on:click="openLargeImage(painting.url, painting.name)">
-            <img v-bind:src="painting.url" class="card-img-top img-thumb" v:bind:alt="painting.name" />
+            <img v-bind:src="painting.url" class="card-img-top img-thumb" v-bind:alt="painting.name" />
         </a>
         <div class="card-body">
             <h5 class="card-title">{{painting.name}}</h5>

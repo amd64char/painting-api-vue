@@ -14,13 +14,15 @@
               </button>
               <div id="collapseAdd" class="mb-3 p-3 border border-primary collapse" aria-labelledby="headingThree" data-parent="#addPainting">
                   <!--Add-->
-                  
+                  <PaintingAdd @create-painting="createPainting" />
                   <!--/Add-->
               </div>
           </div>
       </div>
       <div class="container-fluid">
-          <div v-if="loading">Loading...</div>
+          <div v-if="loading">
+              <font-awesome-icon icon="spinner" transform="shrink-6 left-4" />
+          </div>
           <div v-else class="card-deck">
               <!--Card-->
               <PaintingCard
@@ -36,20 +38,18 @@
 
 <script>
     import axios from 'axios'
-    import PaintingCard from './painting/Card'
-    //import PaintingAdd from './painting/Add'
+    import PaintingCard from './painting/Card';
+    import PaintingAdd from './painting/Add';
 
-    // Obtain the web api from our environment file
     const apiBaseUrl = process.env.WEB_API;
 
-    // Assign the baseURL of our axios calls
     axios.defaults.baseURL = apiBaseUrl;
 
     // Start of our App module
     export default {
         name: 'App',
         components: {
-            //PaintingAdd,
+            PaintingAdd,
             PaintingCard
         },
         data() {
@@ -57,11 +57,11 @@
               message: 'Using Parcel and Bootstrap In A Vue.js App',
               loading: true,
               paintingCount: 0,
-              paintings: []
+              paintings: [],
           };
         },
         mounted() {
-            // Our rest calls start here
+            // Populate our card deck
             this.loadPaintingData();
         },
         methods: {
@@ -93,6 +93,23 @@
             getAllPaintings() {
                 // Return json array of all paintings
                 return axios.get('/paintings')
+            },
+            createPainting(painting) {
+                console.log(painting, 'post painting obj');
+                this.displayMessage('Emitted from child component!');
+                // Post painting data
+                /*
+                axios.post(
+                    '/paintings', {painting}
+                )
+                .then(response => {
+                    // JSON responses are automatically parsed.
+                    this.paintings.push(response.data);
+                })
+                .catch(e => {
+                    this.displayError(e);
+                })
+                */
             }
         }
     };
