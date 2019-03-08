@@ -8,18 +8,25 @@
           </div>
       </div>
       <div class="container">
-          <div class="accordion" id="addPainting">
-              <button class="addButton btn btn-link mb-3 collapsed" type="button" data-toggle="collapse" data-target="#collapseAdd" aria-expanded="false" aria-controls="collapseAdd">
-                  Add New Painting
-              </button>
-              <div id="collapseAdd" class="mb-3 p-3 border border-primary collapse" aria-labelledby="headingThree" data-parent="#addPainting">
-                  <!--Add-->
-                  <PaintingAdd @create-painting="createPainting" />
-                  <!--/Add-->
-              </div>
-          </div>
+          <!--Add-->
+          <PaintingAdd @create-painting="createPainting" />
+          <!--/Add-->
       </div>
       <div class="container-fluid">
+           <!--Search-->
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="filter-painting">Find your painting</span>
+                </div>
+                <input 
+                    type="text" 
+                    class="form-control"
+                    v-model="findPainting" 
+                    id="filterpainting"
+                    placeholder="Search by painting name or artist" 
+                    aria-describedby="filter-painting">
+            </div>
+            <!--/Search-->
           <div v-if="loading">
               <font-awesome-icon icon="spinner" transform="shrink-6 left-4" />
           </div>
@@ -63,6 +70,12 @@
         mounted() {
             // Populate our card deck
             this.loadPaintingData();
+        },
+        computed: {
+            filteredPaintings() {
+                let filter = new RegExp(this.findName, 'i')
+                return this.names.filter(el => el.match(filter))
+            }
         },
         methods: {
             loadPaintingData() {
