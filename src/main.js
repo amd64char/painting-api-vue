@@ -22,17 +22,32 @@ let $ = JQuery;
 const bootbox = require('bootbox');
 
 Vue.mixin({
+    /*
+     * Always use the $_ prefix for custom private properties in a mixin:
+     * https://vuejs.org/v2/style-guide/#Private-property-names-essential
+    */
     methods: {
-        capitalizeFirstLetter: (str) => {
-            return str.charAt(0).toUpperCase() + str.slice(1); 
+        $_capitalizeFirstLetter: (str) => {
+            if (typeof (str) !== 'undefined' && str !== null) {
+                return str.charAt(0).toUpperCase() + str.slice(1);
+            } else {
+                return '';
+            } 
         },
-        displayError: (message) => {
+        $_toLowerCaseAndTrim: (str) => {
+            if (typeof (str) !== 'undefined' && str !== null) {
+                return str.toString().trim().toLowerCase();
+            } else {
+                return '';
+            }
+        },
+        $_displayError: (message) => {
             bootbox.alert(`<p>There was an error while getting data:</p><p><i>${message}</i></p>`);
         },
-        displayMessage: (message) => {
+        $_displayMessage: (message) => {
             bootbox.alert(message);
         },
-        formatInferredDate: (dateModified, dateCreated) => {
+        $_formatInferredDate: (dateModified, dateCreated) => {
             return !!dateModified ? moment(dateModified).format('lll') : moment(dateCreated).format('lll');
         }
     }

@@ -84,13 +84,27 @@
             },
             sendForm() {
                 if (this.name.length > 0 && this.artist.length > 0) {
+                    // Sending painting object to parent
                     this.$emit('create-painting', {
                         name: this.name,
                         artist: this.artist,
                         url: this.url,
                         techniques: this.techniques
                     });
+                    // Clear form
+                    this.clearForm();
+                    // Collapse form
+                    this.closeForm();
                 }
+            },
+            clearForm() {
+                this.name = '';
+                this.artist = '';
+                this.url = '';
+                this.techniques = [];
+            },
+            closeForm() {
+                document.querySelector('#addPainting button').click();
             }
         }
     };

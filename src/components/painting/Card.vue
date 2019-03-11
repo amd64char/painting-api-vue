@@ -9,7 +9,10 @@
             <p class="card-text">{{painting.artist}}</p>
         </div>
         <ul class="list-group list-group-flush">
-            <li v-for="(technique, index) in painting.techniques" v-bind:key="index" class="list-group-item">
+            <li 
+                v-for="(technique, index) in painting.techniques" 
+                v-bind:key="index" 
+                class="list-group-item">
                 {{technique}}
             </li>
         </ul>
@@ -17,7 +20,7 @@
             <a v-bind:href="painting.url" target="_blank" class="card-link">More Info</a>
         </div>
         <div class="card-footer">
-            <small class="text-muted">Last updated: {{this.formatInferredDate(painting.dateModified, painting.dateCreated)}}</small>
+            <small class="text-muted">Last updated: {{this.$_formatInferredDate(painting.dateModified, painting.dateCreated)}}</small>
         </div>
     </div>
 </template>

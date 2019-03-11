@@ -22,9 +22,16 @@
                     type="text" 
                     class="form-control"
                     v-model="findPainting" 
-                    id="filterpainting"
+                    id="txtFilterPaintings"
                     placeholder="Search by painting name or artist" 
                     aria-describedby="filter-painting">
+                <div class="input-group-append">
+                    <button 
+                        class="btn btn-outline-secondary" 
+                        type="button" v-on:click.prevent="clearSearch()">
+                            <font-awesome-icon icon="times" />
+                    </button>
+                </div>
             </div>
             <!--/Search-->
           <div v-if="loading">
@@ -33,7 +40,7 @@
           <div v-else class="card-deck">
               <!--Card-->
               <PaintingCard
-                  v-for="painting in paintings"
+                  v-for="painting in filteredPaintings"
                   v-bind:painting="painting"
                   v-bind:key="painting.id" />
               <!--/Card-->
@@ -65,6 +72,7 @@
               loading: true,
               paintingCount: 0,
               paintings: [],
+              findPainting: ''
           };
         },
         mounted() {
@@ -73,8 +81,18 @@
         },
         computed: {
             filteredPaintings() {
-                let filter = new RegExp(this.findName, 'i')
-                return this.names.filter(el => el.match(filter))
+                // Create a filter array that is a copy of our paintings array
+                let filtered = this.paintings;
+                if (this.findPainting) {
+                    // Only filter if the user is typing something
+                    const filter = this.$_toLowerCaseAndTrim(this.findPainting);
+                    // Filter on name or artist
+                    filtered = this.paintings.filter(el => {
+                        return this.$_toLowerCaseAndTrim(el.name).indexOf(filter) > -1 || this.$_toLowerCaseAndTrim(el.artist).indexOf(filter) > -1;
+                    });
+                }
+                // Return our filtered array
+                return filtered;
             }
         },
         methods: {
@@ -93,7 +111,7 @@
                 .catch(error => {
                     // If you have a pool of requests any request failing will result in a rejected Promise. The first failing request will be the culprit.
                     // https://github.com/axios/axios/issues/76#issuecomment-233146010
-                    this.displayError(error);
+                    this.$_displayError(error);
                 })
                 .finally(() => {
                     this.loading = false;
@@ -107,22 +125,27 @@
                 // Return json array of all paintings
                 return axios.get('/paintings')
             },
+            clearSearch() {
+                this.findPainting = '';
+            },
             createPainting(painting) {
-                console.log(painting, 'post painting obj');
-                this.displayMessage('Emitted from child component!');
-                // Post painting data
-                /*
+                //this.$_displayMessage('Emitted from child component!');
+                this.loading = true;
+                // Post painting object
                 axios.post(
-                    '/paintings', {painting}
+                    '/paintings', painting
                 )
                 .then(response => {
                     // JSON responses are automatically parsed.
                     this.paintings.push(response.data);
                 })
                 .catch(e => {
-                    this.displayError(e);
+                    // Issue with posting our new painting
+                    this.$_displayError(e);
                 })
-                */
+                .finally(() => {
+                    this.loading = false;
+                });
             }
         }
     };
